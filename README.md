@@ -1,28 +1,19 @@
 # Evaluación Integradora Módulo 6
 # Contenidos
-## Funcionaminento: Aplicación Android que Simula el Login de aplicación de WalletDigital con validaciones y al ingresar muestra un recycleView con imagenes y datos de usuarios 
-## Tecnologias: Se utiliza Kotlin, viewBinding, fragments.
-## Testeo: El código se comportó de forma esperada en un Pixel 6 API 34
+## Funcionaminento: Aplicacion Android que utiliza Retrofit para conectarse a una Api, creacion de usuario, 
+## En caso de no tener cuenta al momento de hacer login, este genera una cuenta automática
+## Permite realizar transacciones y muestra información de la transacción en un RecyclerView
+## Api : http://wallet-main.eba-ccwdurgr.us-east-1.elasticbeanstalk.com/api-docs/#/Accounts/post_accounts
+## Tecnologias: Se utiliza Kotlin, viewBinding, fragments, corrutinas, SharedPreferences, Mockito, Junit4, Room (sin implementar).
+## RecyclerView, Spinner
+## Testeo: El código se comportó de forma esperada en un Pixel 6 API 34 y en un Samsung Galaxy 20 Ultra (hardware real)
 ## Instalación: Clonar el repositorio en carpeta local y abrir con Android Studio.
+## Descargar el alkewallet.apk
 > [!CAUTION]
-> No hay usuarios previamente creados, por lo que debe crearse primero una cuenta para el login
-## RoadMap: Funcionalidad a los items de enviar y recibir dinero.
-
-## Estructura del proyecto
-![ArquitecturaMVVM](https://github.com/Galtor-program/EvaluacionM5/assets/118318571/f8af3a8e-bb8d-4ecb-bca9-160a2b2b1ea4)
-### Se utiliza Arquitectura MVVM:
-## data/local
-*UsuariosAdapter: Adaptador para mostrar la información de los usuarios en el RecyclerView 
-*UsuariosDataSet: contiene la información de los usuarios
-## data/model
-*Usuarios: Atributos de usuarios
-## domain/useCases
-*AuthCaseUse: Autenticador para el registro de usuarios
-*UsuariosListUseCase: Listado de Usuarios
-## domain
-*User: Atributos de User para la creación de la cuenta.
-## presentation/view
-*Contiene las vistas donde la única actividad es MainActivity que contiene los fragmentos
-## presentation/viewmodel
-*Contiene los viewmodel de las vistas activas y las Factory 
-
+> Puede Crear su Usuario nuevo o utilizar estas credenciales de prueba  user: mso@example.com password: abc
+## RoadMap: Integrar el Room (no alcancé por falta de tiempo) mostrar los datos desde el UserResponse en el fragmento de Perfil y mostrar
+## transacciones del requestMoney (aunque se realizan bien)
+## Estructura del proyecto utliza MVVM 
+![estructura](https://github.com/Galtor-program/EvaluacionFinal/assets/118318571/5b2ecc8b-456b-4cef-93b8-694201631604)
+Navegacion y utilización de Fragments.
+![navegacion](https://github.com/Galtor-program/EvaluacionFinal/assets/118318571/a2b7a70b-fc2a-4f86-8939-1c3e55217598)
