@@ -1,5 +1,7 @@
 package com.example.alkewalletevalacion.presentation.view
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,9 +29,9 @@ class SendingMoneyFragment : Fragment() {
 
     private var _binding: FragmentSendingMoneyBinding? = null
     private val binding get() = _binding!!
-
     private lateinit var viewModel: SendingMoneyViewModel
-    private lateinit var transactionAdapter: TransactionAdapter // Asegúrate de tener el adaptador de transacciones
+    private lateinit var transactionAdapter: TransactionAdapter
+    private lateinit var sharedPreferences: SharedPreferences
     val usuarioId : Int = 0
     val cuentaId: Int = 0
     override fun onCreateView(
@@ -43,9 +45,11 @@ class SendingMoneyFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+        sharedPreferences = requireContext().getSharedPreferences("myPrefs", Context.MODE_PRIVATE)
 
         val authService = RetrofitHelper.getAuthService(requireContext())
-        val userListUseCase = UserListUseCase(authService)
+
+        val userListUseCase = UserListUseCase(authService, sharedPreferences)
         val createTransactionUseCase = CreateTransactionUseCase(authService)
         val transactionUseCase = TransactionUseCase(authService)
         val accountInfoUseCase = AccountInfoUseCase(authService)
@@ -65,36 +69,44 @@ class SendingMoneyFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.usuariosList.observe(viewLifecycleOwner, { usuarios ->
+        viewModel.usuariosList.observe(viewLifecycleOwner) { usuarios ->
             usuarios?.let {
                 val userNames = it.map { user -> "${user.firstName} ${user.lastName}" }
-                val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, userNames)
+                val adapter =
+                    ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, userNames)
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                 binding.spinner.adapter = adapter
             }
-        })
+        }
 
-        viewModel.transactionResult.observe(viewLifecycleOwner, { success ->
+        viewModel.transactionResult.observe(viewLifecycleOwner) { success ->
             if (success) {
-                Toast.makeText(requireContext(), "Transferencia realizada con éxito", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Transferencia realizada con éxito",
+                    Toast.LENGTH_SHORT
+                ).show()
                 findNavController().popBackStack()
             } else {
-                Toast.makeText(requireContext(), "Error al realizar la transferencia", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error al realizar la transferencia",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
-
-
-
-
+        }
 
 
         // Observa las transacciones actualizadas
-        viewModel.transactions.observe(viewLifecycleOwner, { transactionList ->
+        viewModel.transactions.observe(viewLifecycleOwner) { transactionList ->
             transactionList?.let {
                 transactionAdapter.updateTransactions(it)
-                Log.d("SendingMoneyFragment", "transactions LiveData Observer - TransactionResponse List: $transactionList")
+                Log.d(
+                    "SendingMoneyFragment",
+                    "transactions LiveData Observer - TransactionResponse List: $transactionList"
+                )
             }
-        })
+        }
     }
 
     private fun handleSendMoney() {
@@ -113,9 +125,9 @@ class SendingMoneyFragment : Fragment() {
                             concept = concept,
                             date = date,
                             type = "payment",
-                            accountId = it1, // Reemplaza con el ID de la cuenta del usuario logueado
-                            userId = it, // Reemplaza con el ID del usuario logueado
-                            toAccountId = selectedUser.id // ID de la cuenta del usuario seleccionado
+                            accountId = it1,
+                            userId = it,
+                            toAccountId = selectedUser.id
                         )
                     }
                 }

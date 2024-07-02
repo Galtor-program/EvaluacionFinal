@@ -65,11 +65,14 @@ interface AuthService {
     suspend fun getAccountDetails(@Path("id") accountId: Int): AccountResponse
 
     /**
-     * Creacion de Usuario y cuenta
+     * Creacion de Usuario
      */
     @POST("users")
     suspend fun registerUser(@Body newUserRequest: NewUserRequest): NewUserResponse
 
+    /**
+     * Para la creacion de cuenta
+     */
     @POST("accounts")
     suspend fun createAccount(@Body newAccountRequest: NewAccountRequest): AccountResponse
     @POST("accounts")
@@ -79,8 +82,9 @@ interface AuthService {
     ): Call<Void>
 
     /**
-     * Para restar el saldo
+     * Para buscar usuarios por su id
      */
-    @PUT("accounts/{id}")
-    fun updateAccount(@Path("id") accountId: Int, @Body request: UpdateAccountRequest): Call<Void>
+    @GET("users/{userId}")
+    suspend fun getUserById(@Path("userId") userId: Int): UserResponse
+
 }

@@ -1,14 +1,16 @@
 package com.example.alkewalletevalacion.domain.usecases
 
+import android.content.SharedPreferences
 import android.util.Log
 import com.example.alkewalletevalacion.data.network.api.AuthService
 import com.example.alkewalletevalacion.data.network.response.UserListResponse
 import com.example.alkewalletevalacion.data.network.response.UserListWrapper
+import com.example.alkewalletevalacion.data.network.response.UserResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class UserListUseCase(private val authService: AuthService) {
+class UserListUseCase(private val authService: AuthService, private val sharedPreferences: SharedPreferences) {
 
     private val TAG = "UserListUseCase"
 
@@ -38,5 +40,11 @@ class UserListUseCase(private val authService: AuthService) {
                 onResult(false, null)
             }
         })
+    }
+    suspend fun getUserById(userId: Int): UserResponse {
+        return authService.getUserById(userId)
+    }
+    fun getLoggedInUserId(): Int {
+        return sharedPreferences.getInt("userId", -1)
     }
 }
