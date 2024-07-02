@@ -8,7 +8,8 @@
 ## RecyclerView, Spinner
 ## Testeo: El código se comportó de forma esperada en un Pixel 6 API 34 y en un Samsung Galaxy 20 Ultra (hardware real)
 ## Instalación: Clonar el repositorio en carpeta local y abrir con Android Studio.
-## Descargar el alkewallet.apk
+## Descargar el alkewallet.apk 
+# Los Archivos ejecutables estan https://github.com/Galtor-program/EvaluacionFinal/tree/master/app/archivos
 > [!CAUTION]
 > Puede Crear su Usuario nuevo o utilizar estas credenciales de prueba  user: mso@example.com password: abc
 ## RoadMap: Integrar el Room (no alcancé por falta de tiempo) mostrar los datos desde el UserResponse en el fragmento de Perfil y mostrar
