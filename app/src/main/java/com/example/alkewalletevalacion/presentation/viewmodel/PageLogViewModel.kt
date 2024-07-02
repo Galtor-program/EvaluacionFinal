@@ -19,8 +19,14 @@ class PageLogViewModel(private val authUseCase: AuthUseCase, application: Applic
 
     val navigateToSignUp = MutableLiveData<Unit>()
     val navigationToHome = MutableLiveData<Unit>()
+    val loginError = MutableLiveData<String>()
 
     fun onLoginClick(email: String, password: String) {
+        if (email.isEmpty() || password.isEmpty()) {
+            loginError.value = "Email y contraseña no pueden estar vacíos"
+            return
+        }
+
         val loginRequest = LoginRequest(email, password)
         authUseCase.authenticateUser(loginRequest) { success, accessToken ->
             if (success) {
@@ -38,6 +44,7 @@ class PageLogViewModel(private val authUseCase: AuthUseCase, application: Applic
                     }
                 }
             } else {
+                loginError.value = "Error en autenticación: No se pudo iniciar sesión."
                 Log.e("PageLogViewModel", "Error en autenticación: No se pudo iniciar sesión.")
             }
         }
@@ -49,9 +56,13 @@ class PageLogViewModel(private val authUseCase: AuthUseCase, application: Applic
                 // Verifica si el usuario tiene cuenta
                 authUseCase.getAccountInfo(accessToken) { accountSuccess, accountResponse ->
                     if (accountSuccess && !accountResponse.isNullOrEmpty()) {
-                        callback(true) // El usuario ya tiene una cuenta
+                        callback(true)
                     } else {
-                        // Crear una nueva cuenta para el usuario
+                        /**
+                         * Si el usuario no cuenta con la cuenta se la creamos,
+                         * esto se realiza de esta forma ya que necesitamos primero el token
+                         * para poder crear la cuenta.
+                         */
                         val date = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
                         val newAccountRequest = userResponse.id?.let {
                             NewAccountRequest(

@@ -37,7 +37,6 @@ class TransactionUseCase(private val authService: AuthService) {
                 }
             }
 
-
             override fun onFailure(call: Call<TransactionListResponse>, t: Throwable) {
 
                 callback(false, null)

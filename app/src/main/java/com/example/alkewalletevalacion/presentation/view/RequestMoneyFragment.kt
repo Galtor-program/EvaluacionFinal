@@ -98,6 +98,13 @@ class RequestMoneyFragment : Fragment() {
         }
     }
 
+    /**
+     * Dada la estructura del figma
+     * usaremos solo un usuario para la recepcion de dinero
+     * Si bien la transaccion se hace correcta
+     * aun falta la implementacion para mostrarla en el RecyclerView
+     * de HomeModel
+     */
     private fun handleRequestMoney() {
         val userId = viewModel.userId.value
         val accountId = viewModel.accountId.value

@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -33,37 +34,47 @@ class PageLogFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Preparar la instancia para la autenticación del usuario
+        /**
+         * Preparamos instanacia para el suaurio
+         */
         val authUseCase = AuthUseCase(RetrofitHelper.getAuthService(requireContext()))
 
-        // Inicializar el ViewModel
+
         viewModel = ViewModelProvider(this, PageLogViewModel.Factory(requireActivity().application, authUseCase)).get(PageLogViewModel::class.java)
 
 
-       viewModel.navigateToSignUp.observe(viewLifecycleOwner, Observer {
-         findNavController().navigate(R.id.action_pageLogFragment_to_signupFragment)
+        viewModel.navigateToSignUp.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_pageLogFragment_to_signupFragment)
         })
 
-        // Observer para la navegación hacia la pantalla de Home
+
         viewModel.navigationToHome.observe(viewLifecycleOwner, Observer {
             findNavController().navigate(R.id.action_pageLogFragment_to_homeFragment)
         })
 
-        // Click listener del botón de inicio de sesión
+        /**
+         * Este es para los errores
+         */
+        viewModel.loginError.observe(viewLifecycleOwner, Observer { errorMessage ->
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        })
+
+
         binding.buttonLogin.setOnClickListener {
             val email = binding.email.text.toString()
             val password = binding.passTXT.text.toString()
 
             Log.d("PageLogFragment", "Email: $email, Password: $password")
 
-            // Llamada al método para iniciar sesión
+            /**
+             * Aca llamamos el metodo para inciar sesion.
+             */
             viewModel.onLoginClick(email, password)
         }
-
-        // Click listener para ir a la pantalla de registro
-        //binding.crearCuentaTxt.setOnClickListener {
-          //  viewModel.onSignUpClicked()
+        binding.crearCuentaTxt.setOnClickListener{
+            findNavController().navigate(R.id.action_pageLogFragment_to_signupFragment)
         }
+
+
     }
-
-
+}

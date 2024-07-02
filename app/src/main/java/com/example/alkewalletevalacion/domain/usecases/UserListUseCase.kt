@@ -19,9 +19,9 @@ class UserListUseCase(private val authService: AuthService, private val sharedPr
             override fun onResponse(call: Call<UserListWrapper>, response: Response<UserListWrapper>) {
                 if (response.isSuccessful) {
                     val userList = response.body()?.data
-                    Log.d(TAG, "getUsers onResponse - Success: UserListResponse List: $userList")
+
                     if (userList == null) {
-                        Log.d(TAG, "getUsers onResponse - userList is null")
+
                     } else {
                         userList.forEach { user ->
                             Log.d(TAG, "User: $user")
@@ -29,14 +29,13 @@ class UserListUseCase(private val authService: AuthService, private val sharedPr
                     }
                     onResult(true, userList)
                 } else {
-                    Log.e(TAG, "getUsers onResponse - Error: ${response.code()}")
-                    Log.e(TAG, "getUsers onResponse - Error Body: ${response.errorBody()?.string()}")
+
                     onResult(false, null)
                 }
             }
 
             override fun onFailure(call: Call<UserListWrapper>, t: Throwable) {
-                Log.e(TAG, "getUsers onFailure: ${t.message}")
+
                 onResult(false, null)
             }
         })
