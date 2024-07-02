@@ -16,16 +16,16 @@ class AccountInfoUseCase(private val authService: AuthService) {
             override fun onResponse(call: Call<List<AccountResponse>>, response: Response<List<AccountResponse>>) {
                 if (response.isSuccessful) {
                     val accountList = response.body()
-                    Log.d(TAG, "getAccountInfo onResponse - Success: AccountResponse List: $accountList")
+
                     onResult(true, accountList)
                 } else {
-                    Log.e(TAG, "getAccountInfo onResponse - Error: ${response.code()}")
+
                     onResult(false, null)
                 }
             }
 
             override fun onFailure(call: Call<List<AccountResponse>>, t: Throwable) {
-                Log.e(TAG, "getAccountInfo onFailure: ${t.message}")
+
                 onResult(false, null)
             }
         })
@@ -34,10 +34,10 @@ class AccountInfoUseCase(private val authService: AuthService) {
     suspend fun getAccountDetails(accountId: Int): AccountResponse? {
         return try {
             val response = authService.getAccountDetails(accountId)
-            Log.d(TAG, "getAccountDetails - Success: AccountResponse: $response")
+
             response
         } catch (e: Exception) {
-            Log.e(TAG, "getAccountDetails - Error: ${e.message}")
+
             null
         }
     }

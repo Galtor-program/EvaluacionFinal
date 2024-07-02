@@ -43,6 +43,7 @@ class SendingMoneyViewModel(
         get() = _accountId
 
 
+
     /**
      * Realizar transacciones
      */

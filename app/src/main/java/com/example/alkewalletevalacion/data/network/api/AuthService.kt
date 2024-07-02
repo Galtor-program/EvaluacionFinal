@@ -10,15 +10,12 @@ import com.example.alkewalletevalacion.data.network.response.NewUserResponse
 import com.example.alkewalletevalacion.data.network.response.TransactionListResponse
 import com.example.alkewalletevalacion.data.network.response.TransactionRequest
 import com.example.alkewalletevalacion.data.network.response.TransactionResponse
-import com.example.alkewalletevalacion.data.network.response.UpdateAccountRequest
-import com.example.alkewalletevalacion.data.network.response.UserListResponse
 import com.example.alkewalletevalacion.data.network.response.UserListWrapper
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AuthService {

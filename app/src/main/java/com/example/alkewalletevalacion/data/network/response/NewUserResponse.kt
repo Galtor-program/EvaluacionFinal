@@ -1,5 +1,6 @@
 package com.example.alkewalletevalacion.data.network.response
 
+
 data class NewUserResponse(
     val id: Int,
     val first_name: String,

@@ -47,4 +47,5 @@ class UserListUseCase(private val authService: AuthService, private val sharedPr
     fun getLoggedInUserId(): Int {
         return sharedPreferences.getInt("userId", -1)
     }
+
 }

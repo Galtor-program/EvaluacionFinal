@@ -8,6 +8,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Creacion de Transacciones para el RequestMoney
+ */
 class CreateTransactionUseCase(private val authService: AuthService) {
     fun createTransaction(transactionRequest: TransactionRequest, callback: (Boolean, TransactionResponse?) -> Unit) {
         authService.createTransaction(transactionRequest).enqueue(object : Callback<TransactionResponse> {
@@ -15,20 +18,20 @@ class CreateTransactionUseCase(private val authService: AuthService) {
                 if (response.isSuccessful) {
                     val responseBody = response.body()
                     if (responseBody != null) {
-                        Log.d("CreateTransactionUseCase", "createTransaction - Response Body: $responseBody")
+
                         callback(true, responseBody)
                     } else {
-                        Log.e("CreateTransactionUseCase", "createTransaction - Response Body is null")
+
                         callback(false, null)
                     }
                 } else {
-                    Log.e("CreateTransactionUseCase", "createTransaction - Response not successful: ${response.code()} ${response.message()}")
+
                     callback(false, null)
                 }
             }
 
             override fun onFailure(call: Call<TransactionResponse>, t: Throwable) {
-                Log.e("CreateTransactionUseCase", "createTransaction - onFailure: ${t.message}", t)
+
                 callback(false, null)
             }
         })

@@ -28,9 +28,12 @@ class TransactionAdapter(private var transactions: List<TransactionResponse>) :
         return TransactionViewHolder(view)
     }
 
+    /**
+     * Pintamos los datos en el RecyclerView
+     */
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.transaccionTxt.text = transaction.amount.toString()
+        holder.transaccionTxt.text = "+${transaction.amount}"
         holder.dateTxT.text = transaction.date
         Picasso.get()
             .load("https://avatar.iran.liara.run/public")
@@ -48,15 +51,17 @@ class TransactionAdapter(private var transactions: List<TransactionResponse>) :
             return
         }
 
-        // Buscar la cuenta usando toAccountId
+        /**
+         * Utilizamos el AccountId para buscar el id del usuario
+         */
         val account = GlobalUserList.getAccountById(accountId)
         if (account != null) {
             Log.d("TransactionAdapter", "Account found for toAccountId $accountId: $account")
             // Buscar el usuario usando userId de la cuenta
-            val user = GlobalUserList.getUserById(account.userId ?: -1)
+            val user = account.userId?.let { GlobalUserList.getUserById(it) }
             if (user != null) {
                 Log.d("TransactionAdapter", "User found for userId ${account.userId}: $user")
-                holder.nombreUser.text = "${user.firstName}"
+                holder.nombreUser.text = "${user.firstName}, ${user.lastName}"
             } else {
                 Log.e("TransactionAdapter", "User not found for userId ${account.userId}")
                 holder.nombreUser.text = "Error al cargar nombre"

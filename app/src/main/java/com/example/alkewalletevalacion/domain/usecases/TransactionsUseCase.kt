@@ -12,6 +12,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/**
+ * Transacciones para el SendingMoney
+ */
 class TransactionUseCase(private val authService: AuthService) {
     fun getTransactions(callback: (Boolean, List<TransactionResponse>?) -> Unit) {
         authService.getTransactions().enqueue(object : Callback<TransactionListResponse> {
@@ -22,21 +25,21 @@ class TransactionUseCase(private val authService: AuthService) {
                 if (response.isSuccessful) {
                     val transactionListResponse = response.body()
                     if (transactionListResponse != null) {
-                        Log.d("TransactionUseCase", "getTransactions - onResponse: ${transactionListResponse.data}")
+
                         callback(true, transactionListResponse.data)
                     } else {
-                        Log.e("TransactionUseCase", "getTransactions - Success but transactionListResponse is null")
+
                         callback(true, null)
                     }
                 } else {
-                    Log.e("TransactionUseCase", "getTransactions - Unsuccessful response")
+
                     callback(false, null)
                 }
             }
 
 
             override fun onFailure(call: Call<TransactionListResponse>, t: Throwable) {
-                Log.e("TransactionUseCase", "getTransactions - onFailure: ${t.message}", t)
+
                 callback(false, null)
             }
         })

@@ -61,6 +61,11 @@ class SendingMoneyFragment : Fragment() {
             handleSendMoney()
         }
 
+        /**
+         * Utilizamos los metodos creados mas abajo para
+         * solicitar la lista de usuarios el id del suario
+         * y el id de la cuenta del usuario
+         */
         if (savedInstanceState == null) {
             viewModel.fetchUsuariosList()
             viewModel.fetchUserId()
@@ -78,6 +83,9 @@ class SendingMoneyFragment : Fragment() {
                 binding.spinner.adapter = adapter
             }
         }
+        /**
+         * Toast de mensajes si es que la transaccion se realizo con exito
+         */
 
         viewModel.transactionResult.observe(viewLifecycleOwner) { success ->
             if (success) {
@@ -97,7 +105,9 @@ class SendingMoneyFragment : Fragment() {
         }
 
 
-        // Observa las transacciones actualizadas
+        /**
+         * Aca el observer ve la actualizacion de las transacciones
+         */
         viewModel.transactions.observe(viewLifecycleOwner) { transactionList ->
             transactionList?.let {
                 transactionAdapter.updateTransactions(it)
@@ -109,6 +119,9 @@ class SendingMoneyFragment : Fragment() {
         }
     }
 
+    /**
+     * Mandamos los datos a base de datos
+     */
     private fun handleSendMoney() {
         val selectedUser = viewModel.usuariosList.value?.get(binding.spinner.selectedItemPosition)
         val usuarioId = viewModel.userId.value?.get(usuarioId)

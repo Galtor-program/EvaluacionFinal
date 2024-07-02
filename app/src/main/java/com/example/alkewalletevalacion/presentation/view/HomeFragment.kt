@@ -105,6 +105,9 @@ class HomeFragment : Fragment() {
         binding.botonIngresar.setOnClickListener{
             findNavController().navigate(R.id.action_homeFragment_to_requestMoneyFragment)
         }
+        binding.alPerfil.setOnClickListener{
+            findNavController().navigate(R.id.action_homeFragment_to_profileFragment)
+        }
 
 
         /**
