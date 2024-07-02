@@ -122,12 +122,12 @@
         android:textColor="@color/black"
         android:textSize="14dp"
         app:cornerRadius="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/button4"
+        app:layout_constraintEnd_toStartOf="@+id/botonIngresar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/botonIngresar"
         android:layout_width="165dp"
         android:layout_height="49dp"
         android:layout_marginTop="32dp"

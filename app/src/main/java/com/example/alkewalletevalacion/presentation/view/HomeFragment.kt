@@ -99,8 +99,18 @@ class HomeFragment : Fragment() {
         binding.buttonEnviar.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_sendingMoneyFragment)
         }
+        /**
+         * Boton para navegar al RequestMoneyFragment
+         */
+        binding.botonIngresar.setOnClickListener{
+            findNavController().navigate(R.id.action_homeFragment_to_requestMoneyFragment)
+        }
 
-        // Obtener información del usuario, cuentas y transacciones
+
+        /**
+         *   Obtener información del usuario, cuentas y transacciones
+         */
+
         viewModel.fetchUserInfo()
         fetchAllUsersAndAccounts()
     }
